@@ -88,16 +88,25 @@ var Mongo = (function() {
          * Method Logic
          */
         db.collectionNames(collection, function(err, collections) {
+            if (err) {
+                throw err;
+            }
 
             // collection not found
             if (collections.length === 0) {
                 db.createCollection(collection, function(err, collection) {
+                    if (err) {
+                        throw err;
+                    }
                     callback(collection);
                 });
             }
             // collection found
             else {
                 db.collection(collection, function(err, collection) {
+                    if (err) {
+                        throw err;
+                    }
                     callback(collection);
                 });
             }
@@ -134,6 +143,9 @@ var Mongo = (function() {
 
             // attempt to open connection; run delete-crud operation
             __open(function(err, db) {
+                if (err) {
+                    throw err;
+                }
                 __getCollection(db, collection, function(collection) {
                     collection.remove(query, callback || function(){});
                 });
@@ -167,6 +179,9 @@ var Mongo = (function() {
 
             // attempt to open connection; run insert-crud operation
             __open(function(err, db) {
+                if (err) {
+                    throw err;
+                }
                 __getCollection(db, collection, function(collection) {
                     collection.save(obj, {}, callback || function(){});
                 });
@@ -212,6 +227,9 @@ var Mongo = (function() {
                  * @return void
                  */
                 function(err, db) {
+                    if (err) {
+                        throw err;
+                    }
                     __getCollection(
                         db,
                         collection,
@@ -241,7 +259,9 @@ var Mongo = (function() {
                                  * @return void
                                  */
                                 function(err, cursor) {
-
+                                    if (err) {
+                                        throw err;
+                                    }
                                     // callback to close cursor afterwards
                                     cursor.toArray(function() {
                                         callback.apply(this, arguments);
@@ -285,6 +305,9 @@ var Mongo = (function() {
 
             // attempt to open connection; run update-crud operation
             __open(function(err, db) {
+                if (err) {
+                    throw err;
+                }
                 __getCollection(db, collection, function(collection) {
                     collection.update(
                         spec,
