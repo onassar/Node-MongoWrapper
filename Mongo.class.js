@@ -11,10 +11,25 @@ var sys = require('sys'),
  * Acts as a singleton (non-instantiable) and assumes single database source (at
  * the moment).
  * 
- * @see https://github.com/christkv/node-mongodb-native
+ * @see      https://github.com/christkv/node-mongodb-native
  * @abstract
  * @public
  * @var      Object
+ * @example
+ * <code>
+ *     var mongo = require('Mongo').Mongo;
+ *     mongo.select(
+ *         'users',
+ *         {type: 'twitter', uid: 'onassar'},
+ *         function(err, arr) {
+ *             if (!arr || !arr.length) {
+ *                 console.log('User not found.');
+ *             } else {
+ *                 console.log(arr);
+ *             );
+ *         }
+ *     );
+ * </code>
  */
 var Mongo = (function() {
 
