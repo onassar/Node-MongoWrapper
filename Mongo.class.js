@@ -3,17 +3,18 @@
 var sys = require('sys'),
     mongodb = require('mongodb');
 
-// utils
-var utils = {
-    TypeHinter: require('./TypeHinter.js').TypeHinter
-};
-
 /**
- * Mongo.
+ * Mongo
  * 
+ * A wrapper for christkv's node-mongodb-native node extension. Allows for
+ * easier mongo manipulation via destroy, insert, select and update methods.
+ * Acts as a singleton (non-instantiable) and assumes single database source (at
+ * the moment).
+ * 
+ * @see https://github.com/christkv/node-mongodb-native
  * @abstract
  * @public
- * @var Object
+ * @var      Object
  */
 var Mongo = (function() {
 
@@ -22,34 +23,22 @@ var Mongo = (function() {
         __details = {
             host: 'localhost',
             port: 27017,
-            db: 'bsp'
+            db: 'dbname'
         };
 
     /**
-     * __open.
+     * __open
      * 
-     * @todo fix bug
-     * @bug when hitting the callback from Twitter, the `connection` variable
-     *     has a value somehow; not sure how this is working, but it's an old
-     *     reference that doesn't have the `collectionNames` method. Fix for now
-     *     is to re-open a new connection every time
      * @private
-     * @param Function callback
-     * @return void
+     * @param   Function callback
+     * @return  void
+     * @todo    when hitting the callback from Twitter, the `connection`
+     *          variable has a value somehow; not sure how this is working, but
+     *          it's an old reference that doesn't have the `collectionNames`
+     *          method. Fix for now is to re-open a new connection every time
      */
     function __open(callback) {
 
-        /**
-         * Argument Validation
-         */
-        utils.TypeHinter.benchmark('Mongo.js', '__open');
-        utils.TypeHinter.check(
-            [callback, Function]
-        );
-
-        /**
-         * Method Logic
-         */
 /*         if (!__connection) { */
         if (true) {
             __connection = new mongodb.Db(
@@ -64,29 +53,17 @@ var Mongo = (function() {
     }
 
     /**
-     * __getCollection.
+     * __getCollection
      * 
      * @private
-     * @param Object db
-     * @param Object collection
-     * @param Function callback
-     * @return void
+     * @param   Object db
+     * @param   Object collection
+     * @param   Function callback
+     * @return  void
      */
     function __getCollection(db, collection, callback) {
 
-        /**
-         * Argument Validation
-         */
-        utils.TypeHinter.benchmark('Mongo.js', '__getCollection');
-        utils.TypeHinter.check(
-            [db, mongodb.Db],
-            [collection, String],
-            [callback, Function]
-        );
-
-        /**
-         * Method Logic
-         */
+        // async call
         db.collectionNames(collection, function(err, collections) {
             if (err) {
                 throw err;
@@ -117,29 +94,16 @@ var Mongo = (function() {
     return {
 
         /**
-         * destroy.
+         * destroy
          * 
          * @public
-         * @param String collection collection that should be modified
-         * @param Object query
-         * @param Function callback (optional) callback function after successful deletion
+         * @param  String collection collection that should be modified
+         * @param  Object query
+         * @param  Function callback (optional) callback function after
+         *         successful deletion
          * @return void
          */
         destroy: function(collection, query, callback) {
-
-            /**
-             * Argument Validation
-             */
-            utils.TypeHinter.benchmark('Mongo.js', 'destroy');
-            utils.TypeHinter.check(
-                [collection, String],
-                [query, Object],
-                [callback, Function, undefined]
-            );
-
-            /**
-             * Method Logic
-             */
 
             // attempt to open connection; run delete-crud operation
             __open(function(err, db) {
@@ -153,29 +117,16 @@ var Mongo = (function() {
         },
 
         /**
-         * insert.
+         * insert
          * 
          * @public
-         * @param String collection collection that should be modified
-         * @param Object obj record/object that should be inserted
-         * @param Function callback (optional) callback function after successful insertion
+         * @param  String collection collection that should be modified
+         * @param  Object obj record/object that should be inserted
+         * @param  Function callback (optional) callback function after
+         *         successful insertion
          * @return void
          */
         insert: function(collection, obj, callback) {
-
-            /**
-             * Argument Validation
-             */
-            utils.TypeHinter.benchmark('Mongo.js', 'insert');
-            utils.TypeHinter.check(
-                [collection, String],
-                [obj, Object],
-                [callback, Function, undefined]
-            );
-
-            /**
-             * Method Logic
-             */
 
             // attempt to open connection; run insert-crud operation
             __open(function(err, db) {
@@ -189,36 +140,22 @@ var Mongo = (function() {
         },
 
         /**
-         * select.
+         * select
          * 
-         * @todo implement 
+         * @todo   implement 
          * @public
-         * @param String collection collection that should be modified
-         * @param Object query
-         * @param Function callback
+         * @param  String collection collection that should be modified
+         * @param  Object query
+         * @param  Function callback
          * @return void
          */
         select: function(collection, query, callback) {
-
-            /**
-             * Argument Validation
-             */
-            utils.TypeHinter.benchmark('Mongo.js', 'select');
-            utils.TypeHinter.check(
-                [collection, String],
-                [query, Object],
-                [callback, Function]
-            );
-
-            /**
-             * Method Logic
-             */
 
             // attempt to open connection; run select-crud operation
             __open(
 
                 /**
-                 * (anonymous).
+                 * (anonymous)
                  * 
                  * @todo document exact object type
                  * @public
@@ -235,7 +172,7 @@ var Mongo = (function() {
                         collection,
 
                         /**
-                         * (anonymous).
+                         * (anonymous)
                          * 
                          * @todo document exact object type
                          * @public
@@ -247,7 +184,7 @@ var Mongo = (function() {
                                 query || {},
 
                                 /**
-                                 * (anonymous).
+                                 * (anonymous)
                                  * 
                                  * @note callback is wrapped in a `wrapped` function to allow
                                  *     the cursor to be closed only after the passed-in
@@ -276,32 +213,19 @@ var Mongo = (function() {
         },
 
         /**
-         * update.
+         * update
          * 
-         * @note performs an upsert if document specified by `spec` isn't found
+         * @note   performs an upsert if document specified by `spec` isn't
+         *         found
          * @public
-         * @param String collection collection that should be modified
-         * @param Object spec
-         * @param Object obj new value of record
-         * @param Function callback (optional) callback function after successful update
+         * @param  String collection collection that should be modified
+         * @param  Object spec
+         * @param  Object obj new value of record
+         * @param  Function callback (optional) callback function after
+         *         successful update
          * @return void
          */
         update: function (collection, spec, obj, callback) {
-
-            /**
-             * Argument Validation
-             */
-            utils.TypeHinter.benchmark('Mongo.js', 'update');
-            utils.TypeHinter.check(
-                [collection, String],
-                [spec, Object],
-                [obj, Object],
-                [callback, Function, undefined]
-            );
-
-            /**
-             * Method Logic
-             */
 
             // attempt to open connection; run update-crud operation
             __open(function(err, db) {
@@ -327,4 +251,3 @@ var Mongo = (function() {
 
 // make available
 exports.Mongo = Mongo;
-
