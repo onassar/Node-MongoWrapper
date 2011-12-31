@@ -47,9 +47,9 @@ var Mongo = (function() {
      * @private
      * @param   Function callback
      * @return  void
-     * @todo    when hitting the callback from Twitter, the `connection`
+     * @todo    when hitting the callback from Twitter, the <connection>
      *          variable has a value somehow; not sure how this is working, but
-     *          it's an old reference that doesn't have the `collectionNames`
+     *          it's an old reference that doesn't have the <collectionNames>
      *          method. Fix for now is to re-open a new connection every time
      */
     function __open(callback) {
@@ -174,8 +174,8 @@ var Mongo = (function() {
                  * 
                  * @todo document exact object type
                  * @public
-                 * @param Object|null err
-                 * @param Object db (optional)
+                 * @param  Object|null err
+                 * @param  Object db (optional)
                  * @return void
                  */
                 function(err, db) {
@@ -189,9 +189,9 @@ var Mongo = (function() {
                         /**
                          * (anonymous)
                          * 
-                         * @todo document exact object type
+                         * @todo   document exact object type
                          * @public
-                         * @param Object collection
+                         * @param  Object collection
                          * @return void
                          */
                         function(collection) {
@@ -201,13 +201,14 @@ var Mongo = (function() {
                                 /**
                                  * (anonymous)
                                  * 
-                                 * @note callback is wrapped in a `wrapped` function to allow
-                                 *     the cursor to be closed only after the passed-in
-                                 *     callback has been run.
-                                 * @todo document exact object type
+                                 * @notes  callback is wrapped in a <wrapped>
+                                 *         function to allow the cursor to be
+                                 *         closed only after the passed-in
+                                 *         callback has been run
+                                 * @todo   document exact object type
                                  * @public
-                                 * @param Object|null err
-                                 * @param Object cursor (optional)
+                                 * @param  Object|null err
+                                 * @param  Object cursor (optional)
                                  * @return void
                                  */
                                 function(err, cursor) {
@@ -230,7 +231,7 @@ var Mongo = (function() {
         /**
          * update
          * 
-         * @note   performs an upsert if document specified by `spec` isn't
+         * @notes  performs an upsert if document specified by <spec> isn't
          *         found
          * @public
          * @param  String collection collection that should be modified
