@@ -17,6 +17,7 @@ now I hope it&#039;s useful for others.
 
 ``` javascript
 
+
 var mongo = require('Mongo').Mongo;
 mongo.select(
     'users',
