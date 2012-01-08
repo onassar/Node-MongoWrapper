@@ -17,18 +17,18 @@ now I hope it&#039;s useful for others.
 
 ``` javascript
 
-    var mongo = require('Mongo').Mongo;
-    mongo.select(
-        'users',
-        {type: 'twitter', uid: 'onassar'},
-        function(err, arr) {
-            if (!arr || !arr.length) {
-                console.log('User not found.');
-            } else {
-                console.log(arr);
-            );
-        }
-    );
+var mongo = require('Mongo').Mongo;
+mongo.select(
+    'users',
+    {type: 'twitter', uid: 'onassar'},
+    function(err, arr) {
+        if (!arr || !arr.length) {
+            console.log('User not found.');
+        } else {
+            console.log(arr);
+        );
+    }
+);
 
 ```
 
