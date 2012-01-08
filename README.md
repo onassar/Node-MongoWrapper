@@ -14,6 +14,9 @@ could be done to make it more robust and fix some glaring and major bugs, for
 now I hope it&#039;s useful for others.
 
 ### Select Example
+
+``` javascript
+
     var mongo = require('Mongo').Mongo;
     mongo.select(
         'users',
@@ -26,6 +29,8 @@ now I hope it&#039;s useful for others.
             );
         }
     );
+
+```
 
 The above example attempts selects a user document from a mongo database. If the
 document is found, it&#039;s logged directly to the console, otherwise an error
