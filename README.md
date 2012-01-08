@@ -17,7 +17,6 @@ now I hope it&#039;s useful for others.
 
 ``` javascript
 
-
 var mongo = require('Mongo').Mongo;
 mongo.select(
     'users',
@@ -30,7 +29,6 @@ mongo.select(
         );
     }
 );
-
 ```
 
 The above example attempts selects a user document from a mongo database. If the
