@@ -1,7 +1,7 @@
 Node-Mongo
 ===
 
-I developed this single-file library while working with the Twitter and Facbeook
+I developed this single-file library while working with the Twitter and Facebook
 APIs from Node. What I found was that it was cumbersome to register CRUD
 operations against Mongo, through node, with proper execution of callbacks.
 
