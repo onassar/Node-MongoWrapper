@@ -31,6 +31,6 @@ mongo.select(
 );
 ```
 
-The above example attempts selects a user document from a mongo database. If the
-document is found, it&#039;s logged directly to the console, otherwise an error
-is logged.
+The above example attempts to select a user document from a mongo database. If
+the document is found, it&#039;s logged directly to the console, otherwise an
+error is logged.
